@@ -1,0 +1,2 @@
+# Advanced-Subscribe
+Advanced subscribe is a Magento extension 1.5 &amp; later that help you sustain your customers by keeping them connected with your store. The extension will display a small 'Follow' icon which pops out when clicked displaying a message for the customers asking them to subscribe for new product updates. The customers are allowed to enter their email address to subscribe and follow.
