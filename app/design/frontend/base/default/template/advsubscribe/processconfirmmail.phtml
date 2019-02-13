@@ -1,0 +1,63 @@
+<?php
+	$isValide = (int)$this->isValideUserEmail();
+	if($isValide)
+	{   
+			$listOfCategories =  $this->get_categories();
+			$AllCategoriesIdsList = '';
+			$emailId = $this->getEmailId();
+?>
+<h2><?php echo $this->__("Your options have been updated");?></h2>
+<h5 style="margin-left: 10px;"><?php echo $this->__("This is the management page for following products. You will receive an email at ");
+		  echo $emailId;
+          echo $this->__(" whenever a new product is made on these shop. Unfollow a blog to stop receiving emails from that blog.");?></h5>
+
+<form  name="confirmMailActivated" method="post" action="<?php echo $this->getFormAction();?>">
+	
+	<input type="hidden" value="<?php echo $this->getdate();?>" name="formSubmited" />
+	<input type="hidden" value="<?php echo $this->getEmailId();?>"  name="subsEmailId" id="subsEmailId" />
+	<div  id='adv-selectCategori'>
+	<table width="400">
+		<caption style="font-weight: bold;margin-bottom: 4px;"><?php echo $this->__('Select Categories');?></caption>	
+		<thead>
+		<tr><th class='block-title' style="font-weight: 700;text-align: center;width: 27px; "><?php echo $this->__('Sno');?></th><th class='block-title' style="font-weight: 700;text-align: center;width: 50px; "><?php echo $this->__('Select');?> </th><th class='block-title' style="font-weight: 700;padding-left: 10px; "><?php echo $this->__('Category Name');?></th> </tr>
+		</thead>
+		<tbody>
+		
+			<?php 
+					foreach($listOfCategories as $k => $catName)
+					{  $AllCategoriesIdsList .=  $catName['catId'].',';
+					?>
+						<tr>
+								<td style="text-align: center;"><?php echo $k+1; ?></td>
+								<td style="text-align: center;"><input type="checkbox" name="AllcategoriSelected[]" value="<?php echo $catName['catId'];?>" /></td>
+								<td style="padding-left: 10px;"><a target="new" href="<?php echo $catName['catUrl'];?>"><?php echo $catName['catName'];?></a> </td> 
+						</tr>	
+			  <?php } 
+			  ?>	
+		
+		</tbody>
+		
+		<tfoot><caption>asdfasdfsdaf</caption></tfoot>
+		
+	</table>
+	   <div   style="font-size: 14px;font-weight:lighter; margin-bottom: 6px;margin-left: 12px;font-style: italic;" id="selectAllCategoriesId">
+	   <span style="color: red">*</span>  <?php echo $this->__("If you don't select any category default all categories will select");?> </div>
+	</div>
+	<input type="hidden" value="<?php echo $AllCategoriesIdsList; ?>" name="AllCategoriesIdsList" id="AllCategoriesIdsList" >
+	<div class="actions" style="margin-left: 12px;">
+
+	<button type="submit" title="Add to Cart" class="button btn-cart" name="categoriSelected" id="categoriSelected"  >
+		<span><span><?php echo $this->__('Save Changes');?></span></span>
+	</button>
+	
+	
+	</div>
+</form>
+<?php 
+	}
+	else{
+		echo '<ul class="messages"><li class="error-msg"><ul><li><span>It is not a valide Request</span></li></ul></li></ul>';
+			 
+	}
+?>
+

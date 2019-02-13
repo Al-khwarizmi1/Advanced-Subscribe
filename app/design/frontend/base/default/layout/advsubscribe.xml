@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    	<reference name="head">
+	        <action method="addJs"><script>apptha_advsubscribe_js/advsubscribe.js</script></action>
+	        <action method="addCss"><stylesheet>/apptha_advsubscribe_css/advsubscribe.css</stylesheet></action>
+	    </reference>
+	    
+	     <reference name="content">
+	        <block type="advsubscribe/advsubscribe"  name="advsubscribe1" >
+	              <action method="setTemplate" ifconfig="advsubscribe/general/activate_apptha_adv_subscribe">
+	             	<template>advsubscribe/followpopup.phtml</template>
+	             </action>
+	        </block>     
+	    </reference>
+	    
+    </default>
+    
+    <advsubscribe_index_index>
+        <reference name="content">
+            <block type="advsubscribe/advsubscribe" name="advsubscribe" template="advsubscribe/advsubscribe.phtml" />
+        </reference>
+        
+    </advsubscribe_index_index>
+    
+    <advsubscribe_index_getconfirmmailcontent>
+    		<reference name="root">
+    			<action method="setTemplate"><template>page/1column.phtml</template></action>
+    		</reference>
+    		<reference name="content">
+            	
+            	<block type="advsubscribe/confirmmail" name="confirmMail" template="advsubscribe/processconfirmmail.phtml" />
+        	</reference>
+    </advsubscribe_index_getconfirmmailcontent>
+    
+     <advsubscribe_index_deletesubscriptioin>
+      <remove name="left.newsletter"/>
+        <remove name="left.permanent.callout"/> 
+        <remove name="right.permanent.callout"/>
+        <remove name="cart_sidebar"/>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="right.poll"/>
+    		<reference name="content">
+            	
+            	<block type="advsubscribe/deletesubscription" name="deleteSubscription" template="advsubscribe/deletesubscription.phtml" >
+            	
+            	</block>
+        	</reference>
+    </advsubscribe_index_deletesubscriptioin>
+</layout> 

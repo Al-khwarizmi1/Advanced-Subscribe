@@ -1,0 +1,198 @@
+<html> 
+<head>
+<?php 
+$isEnable   = (int)Mage::getStoreConfig('advsubscribe/general/activate_apptha_adv_subscribe');
+$getNotifiMess   = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_notify_message_to_signUP');
+$emailErrorMess  = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_email_invalide_message');
+$successMess     = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_subscription_success');
+$poweredByMess   = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_poweredby_mess');
+$storeName       = Mage::getStoreConfig("general/store_information/name");
+$emailInvalideMess  = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_email_invalide_message');
+$emailSuccessMess   = Mage::getStoreConfig('advsubscribe/advsubscribe_follow_popup_settings/advsubscribe_subscription_success');
+$crtlPageUrl 	 = Mage::getBaseUrl().'advsubscribe/index/storingSubscriberEmailIdsInDB';
+$creatNewAcc     = Mage::getBaseUrl().'customer/account/login/';
+$siteUrl         = Mage::getBaseUrl();
+$numOfFollowers =  Mage::getModel('advsubscribe/advsubscribe')->getNumberOfFollowers();
+?>
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<script>window.jQuery || document.write("<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'>\x3C/script>")</script>
+
+<script type='text/javascript'> 
+/* <![CDATA[ */
+             var invalideEmailErrorMess = '<?php echo $emailInvalideMess;?>';
+             var ctrlFunCalling = '<?php echo $crtlPageUrl; ?>';
+				var LoggedOutFollow = {"invalid_email":invalideEmailErrorMess};
+				var storName = '<?php echo $storeName;?>';
+		    var confirmMess  = '<?php echo $this->__("We already sent you a confirmation do u want send again?")?>';
+		    var mailSendCanceled = "<?php echo $this->__('mail sending cancelled')?>";
+		    var youAreAlreadySub =  "<?php echo $this->__('You are already Subscriber')?>";
+		    var sendMailFail =  "<?php echo $this->__('Sending mail fail')?>";
+		    
+
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+jQuery.noConflict();
+$jq = jQuery.noConflict();
+
+	jQuery.noConflict();
+	jQuery.extend(jQuery.easing, {
+		easeOutCubic : function(x, t, b, c, d) {
+			return c * ((t = t / d - 1) * t * t + 1) + b;
+		}
+	});
+	jQuery(document)
+			.ready(
+					function($jq) {
+						var isopen = false, bitHeight = $jq('#bitsubscribe').height(),
+					
+							$bit = $jq('#bit');
+						setTimeout(
+								function() {
+									$bit.animate({
+										bottom : '-' + bitHeight - 30 + 'px'
+									}, 200);
+									if (document.location.href
+											.indexOf('blogsub=') !== -1) {
+										open();
+									}
+								}, 300);
+						var open = function() {
+							if (isopen)
+								return;
+							isopen = true;
+							$jq('a.bsub', $bit).addClass('open');
+							$jq('#bitsubscribe', $bit).addClass('open')
+							$bit.stop();
+							$bit.animate({
+								bottom : '0px'
+							}, {
+								duration : 400,
+								easing : "easeOutCubic"
+							});
+						}
+						var close = function() {
+							if (!isopen)
+								return;
+							isopen = false;
+				//var Error = findErrorMessIsOpend();		
+				var hh;
+				  hh = $jq('#loggedout-follow-error').height();
+				  var bitDivHeight = $jq('#bit').height();
+				  var succMess = $jq('#successMsg').height();
+				      var bodyOfDiv = $jq('#bitsubscribe').height();
+				 if(succMess)
+				 {
+
+							bitHeight = bodyOfDiv+30;
+				 }
+				 else{
+					 	        if(hh){
+				        	    var display = $jq('#loggedout-follow-error').css("display");
+				        	    if(display == 'none')
+				        	    {
+					        	    hh = 0;
+					        	}
+				        	    else{
+								hh = hh + 15;
+				        	    }
+					    }
+				        hh = hh + 30;
+				   }    	
+				       
+							$bit.stop();
+							$bit.animate({
+								bottom : '-' + bitHeight - hh + 'px'
+							}, 200, function() {
+								$jq('a.bsub', $bit).removeClass('open');
+								$jq('#bitsubscribe', $bit).removeClass('open');
+							});
+						}
+						$jq('a.bsub', $bit).click(function() {
+							if (!isopen)
+								open();
+							else
+								close();
+						});
+						//var target = $bit.has('form').length ? $bit
+					    var target = $jq("#loggedout-follow").length ? $bit
+								: $jq(document);
+						target.keyup(function(e) {
+							if (27 == e.keyCode)
+								close();
+						});
+						$jq('#loggedout-follow')
+								.submit(
+										function() {
+											email = $jq('#loggedout-follow-field')
+													.val();
+											if ('' === email
+													|| !email
+															.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) ) {
+												var error = LoggedOutFollow.invalid_email;
+												$jq('#loggedout-follow-error')
+														.text(error).css(
+																'opacity', 1)
+														.fadeIn('slow');
+												$jq('#loggedout-follow-field')
+														.focus(
+																function() {
+																	$jq(
+																			'#loggedout-follow-error')
+																			.fadeOut();
+																});
+												return false;
+											} else {
+
+												var successMes = document.getElementById('successEmailMess').value;
+												$jq('#maincontent')
+														.text('Thank you for following '+storName)
+														.css('opacity', 1)
+														.fadeIn('slow');
+												$jq('#loggedout-follow').text('');
+												$jq('#successMsg')
+														.text('<?php echo $this->__("sending mail ..."); ?>')
+														.css('opacity', 1)
+														.fadeIn('slow'); 
+											storeEmailidinDB(email,ctrlFunCalling,successMes,confirmMess,mailSendCanceled,youAreAlreadySub,sendMailFail);	
+												return false;
+											}
+										});
+					});
+	
+</script>
+</head> 
+<body> 
+		
+	<div id="bit" class="loggedout-follow-normal"> 
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'><?php echo $this->__('Follow');?></span></a> 
+		<div id="bitsubscribe"> 
+			
+		<h3><label for="loggedout-follow-field" id='maincontent'><?php echo $this->__('Follow');?> <?php if(isset($storeName)){ echo $storeName; } else{ echo 'Store'; }; ?></label></h3> 
+			<p id='successMsg' style="opacity: 1;    overflow: hidden;    word-wrap: break-word;"></p>
+			<form  method="post" accept-charset="utf-8" id="loggedout-follow"> 
+			<p><?php echo $getNotifiMess; ?></p> 
+			
+			<p id="loggedout-follow-error" style="display: none;"></p> 
+ 
+						<p class="bit-follow-count"><?php echo $this->__('Join');?> <?php echo $numOfFollowers; ?><?php echo $this->__(' other followers');?> </p>	
+				
+			<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="<?php echo $this->__('Enter your email address');?>" 
+			onfocus='this.value=(this.value=="<?php echo $this->__('Enter your email address');?>") ? "" : this.value; ' onblur='this.value=(this.value=="") ? "<?php echo $this->__('Enter your email address');?>" : this.value;'  id="loggedout-follow-field"/></p>
+			 
+ 			<input type="hidden" id='successEmailMess' value="<?php echo $emailSuccessMess; ?>" name="successEmailMess"  />
+			<input type="hidden" id="ctrlFunctionCalling" name="ctrlFunctionCalling" value="1213<?php //echo $crtlPageUrl;?>"/> 
+		 
+			<p id='bsub-subscribe-button'>
+				<input type="submit" value="<?php echo $this->__('Sign me up');?>" />
+			</p> 
+			</form> 
+					<div id='bsub-credit'><a target="_new" href="<?php echo $siteUrl; ?>"><?php echo $poweredByMess;?></a></div> 
+		</div>
+	</div>
+
+</body> 
+</html>
+

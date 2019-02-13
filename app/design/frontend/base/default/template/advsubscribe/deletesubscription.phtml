@@ -1,0 +1,64 @@
+<?php 
+  	if($this->checkValidatefEmailAndKey())
+ 	{
+?>
+<div class="account-login">
+    <div class="page-title">
+        <h1><?php echo $this->__('Delete Your Subscription'); ?></h1>
+    </div>
+    	<h5 style="margin-bottom: 5px;" class="lead-in"><?php echo $this->__("You are about to delete your subscription to the site ");
+				 echo $this->getShopName(); echo $this->__(". Please confirm this below."); ?></h5>
+       
+        <div class="col2-set">
+            <div class="col-1 new-users">
+                <div class="content">
+                    <h2><?php echo $this->__('Yes, I want to delete my subscription'); ?></h2>
+                    <div>
+						<p><?php echo $this->__("We're sorry that you've decided to stop your subscription. If
+												 you change your mind in the future we're only a few clicks away."); ?>
+					   </p>
+					</div>
+                    
+                </div>
+            </div>
+            <div class="col-2 registered-users">
+                <div class="content">
+                    <h2><?php echo $this->__("I don't want any more emails!"); ?></h2>
+                   <p><?php echo $this->__('You can prevent '); ?> <?php echo $this->getShopName(); ?><?php echo $this->__(' from sending you any more subscription emails by clicking below.'); ?> </p>
+                   </div>
+            </div>
+        </div>
+        <div class="col2-set">
+            <div class="col-1 new-users">
+                <div class="buttons-set">
+                	<form method="post" action="<?php echo $this->getDeleteFormAction(); ?>">
+                	<button type="submit" value="" title="Create an Account" class="button"><span><?php echo $this->__('Confirm Deletion'); ?></span></button>
+						<input type="hidden" value="delete_blog" name="action">
+						<input type="hidden" value="<?php echo $this->getEmailId(); ?>" name ="deleteEmailId" >
+						<input type="hidden" value="<?php echo $this->getEncryptionKeyValue(); ?>" name ="deleteKeyValu" >
+						
+					</form>
+                    
+                </div>
+            </div>
+            <div class="col-2 registered-users">
+                <div class="buttons-set">
+                    <form method="post" action="<?php echo $this->getDeleteFormAction(); ?>" >
+							<button type="submit" class="button" title="Login" name="send" id="send2"><span><span><?php echo $this->__('Stop All Emails'); ?></span></span></button>
+							<input type="hidden" value="stopall" name="action"> 
+							<input type="hidden" value="<?php echo $this->getEmailId(); ?>" name ="deleteEmailId" >
+							<input type="hidden" value="<?php echo $this->getEncryptionKeyValue(); ?>" name ="deleteKeyValu" >
+							
+					</form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+	
+<?php }//if end hear 
+	else{
+					
+		 echo '<br><ul class="messages"><li class="error-msg"><ul><li><span>It is not a valide Request</span></li></ul></li></ul>';
+	}
+?>

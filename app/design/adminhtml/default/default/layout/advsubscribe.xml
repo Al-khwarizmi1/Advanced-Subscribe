@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <advsubscribe_adminhtml_advsubscribe_index>
+        <reference name="content">
+            <block type="advsubscribe/adminhtml_advsubscribe" name="advsubscribe" />
+        </reference>
+    </advsubscribe_adminhtml_advsubscribe_index>
+</layout>

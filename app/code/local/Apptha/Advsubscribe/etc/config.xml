@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Apptha
+ * @package    Apptha_Advsubscribe
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Apptha_Advsubscribe>
+            <version>0.1.0</version>
+        </Apptha_Advsubscribe>
+    </modules>
+    <frontend>
+        <routers>
+            <advsubscribe>
+                <use>standard</use>
+                <args>
+                    <module>Apptha_Advsubscribe</module>
+                    <frontName>advsubscribe</frontName>
+                </args>
+            </advsubscribe>
+        </routers>
+        <layout>
+            <updates>
+                <advsubscribe>
+                    <file>advsubscribe.xml</file>
+                </advsubscribe>
+            </updates>
+        </layout>
+         <translate>  <!-- for multiple language translate -->
+            <modules>
+                <Apptha_Advsubscribe>
+                    <files>
+                        <default>Apptha_Advancesubscription.csv</default>
+                    </files>
+                </Apptha_Advsubscribe>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+			<advsubscribe>
+				<use>admin</use>
+				<args>
+					<module>Apptha_Advsubscribe</module>
+					<frontName>advsubscribe</frontName>
+				</args>
+			</advsubscribe>
+        </routers>
+        
+    </admin>
+    <adminhtml>
+		<menu>
+			<advsubscribe module="advsubscribe">
+				<title>Advance Subscribe</title>
+				<sort_order>71</sort_order>               
+				<children>
+					<items module="advsubscribe">
+						<title>Manage Subscribers</title>
+						<sort_order>0</sort_order>
+						<action>advsubscribe/adminhtml_advsubscribe</action>
+					</items>
+				</children>
+			</advsubscribe>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Apptha_Advsubscribe>
+							<title>Advsubscribe Module</title>
+							<sort_order>10</sort_order>
+						</Apptha_Advsubscribe>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<advsubscribe>
+					<file>advsubscribe.xml</file>
+				</advsubscribe>
+			</updates>
+		</layout>
+		
+    </adminhtml>   
+    <global>
+    
+        <models>
+            <advsubscribe>
+                <class>Apptha_Advsubscribe_Model</class>
+                <resourceModel>advsubscribe_mysql4</resourceModel>
+            </advsubscribe>
+            <advsubscribe_mysql4>
+                <class>Apptha_Advsubscribe_Model_Mysql4</class>
+                <entities>
+                    <advsubscribe>
+                        <table>advsubscribe</table>
+                    </advsubscribe>
+                </entities>
+            </advsubscribe_mysql4>
+        </models>
+        <resources>
+            <advsubscribe_setup>
+                <setup>
+                    <module>Apptha_Advsubscribe</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </advsubscribe_setup>
+            <advsubscribe_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </advsubscribe_write>
+            <advsubscribe_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </advsubscribe_read>
+        </resources>
+        <blocks>
+            <advsubscribe>
+                <class>Apptha_Advsubscribe_Block</class>
+            </advsubscribe>
+        </blocks>
+        <helpers>
+            <advsubscribe>
+                <class>Apptha_Advsubscribe_Helper</class>
+            </advsubscribe>
+        </helpers>
+        <!--  creating event for find new product and send mail to subscribers -->
+        <events>
+         <catalog_product_save_before>
+  <!-- this event is use to exe a function in our model/obersver.php/newProductAddedMailSendingToSubs() wil exe after click on save button in inventory--> 
+                <observers>
+                    <advsubscribe>
+                        <type>singleton</type>
+                        <class>advsubscribe/observer</class>
+                        <method>newProductAddedMailSendingToSubs</method>
+                    </advsubscribe>
+                </observers>
+         </catalog_product_save_before>
+         
+     </events> 
+        <!--  creating email templates for sending confirm , subscirber success and inform about new produt in shop -->
+        <template>
+        <email>
+            <apptha_confirm_email_template module="advsubscribe">
+                <label>Apptha Confirm Follow Email Template</label>
+                <file>apptha_advsubscrib/apptha_confirm_follow_email_template.html</file>
+                <type>html</type>
+            </apptha_confirm_email_template>
+        </email>
+    </template>
+    <template>
+        <email>
+            <apptha_success_email_template module="advsubscribe">
+                <label>Apptha Subscribe Confirm Email Template</label>
+                <file>apptha_advsubscrib/apptha_subscribe_confirm_email_template.html</file>
+                <type>html</type>
+            </apptha_success_email_template>
+        </email>
+    </template>
+    <template>
+        <email>
+            <apptha_newporduct_email_template module="advsubscribe">
+                <label>Apptha Add New Product Information Email Template</label>
+                <file>apptha_advsubscrib/apptha_newproduct_email_template.html</file>
+                <type>html</type>
+            </apptha_newporduct_email_template>
+        </email>
+    </template>
+       <translate>  <!-- for multiple language translate -->
+            <modules>
+                <Apptha_Advsubscribe>
+                    <files>
+                        <default>Apptha_Advancesubscription.csv</default>
+                    </files>
+                </Apptha_Advsubscribe>
+            </modules>
+        </translate>
+        
+    </global>
+    <!--    backed Advanced Substirbe menu options default values we are giving hear  -->
+     <default>
+		<advsubscribe>
+				<general>
+					<activate_apptha_adv_subscribe>1</activate_apptha_adv_subscribe>				
+					</general>
+				<advsubscribe_follow_popup_settings>
+					<advsubscribe_show_popup_box>1</advsubscribe_show_popup_box>
+					<advsubscribe_notify_message_to_signUP>Get every new product delivered to your Inbox.</advsubscribe_notify_message_to_signUP>
+					<advsubscribe_email_invalide_message>Your subscription did not succeed, please try again with a valid email address.</advsubscribe_email_invalide_message>
+					<advsubscribe_subscription_success>We sent you a confirmation email.</advsubscribe_subscription_success>
+					<advsubscribe_poweredby_mess>Powered by apptha.com</advsubscribe_poweredby_mess>
+				</advsubscribe_follow_popup_settings>
+	    </advsubscribe>
+	</default>
+  
+</config>
